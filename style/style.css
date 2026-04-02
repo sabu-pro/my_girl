@@ -1,0 +1,258 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background: black;
+  font-family: Arial, sans-serif;
+}
+#startScreen {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #22003d 0%, #080012 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  transition: opacity 1s ease, visibility 1s ease;
+}
+
+#startScreen.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.startBox {
+  text-align: center;
+  color: white;
+  padding: 30px 40px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 30px rgba(255, 105, 180, 0.25);
+  backdrop-filter: blur(6px);
+}
+
+.startBox h1 {
+  margin: 0 0 10px;
+  font-size: 42px;
+}
+
+.startBox p {
+  margin: 0 0 20px;
+  font-size: 18px;
+  color: #ffd6ea;
+}
+
+#startBtn {
+  border: none;
+  outline: none;
+  padding: 14px 28px;
+  font-size: 20px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff4f9a, #ff8ec7);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 18px rgba(255, 105, 180, 0.45);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#startBtn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 28px rgba(255, 105, 180, 0.7);
+}
+#canvas {
+  display: block;
+}
+
+#bear {
+  position: absolute;
+  left: 10px;
+  bottom: 50px;
+  width: 110px;
+  z-index: 10;
+  transition: transform 0.2s ease;
+}
+
+#bear:hover {
+  transform: scale(1.08);
+  cursor: pointer;
+}
+
+#photoWrap {
+  position: absolute;
+  left: 50%;
+  top: 57%;
+  transform: translate(-50%, 30px) scale(0.72);
+  opacity: 0;
+  z-index: 20;
+  pointer-events: none;
+  transition:
+    opacity 1.6s ease,
+    transform 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#photoWrap.show {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+/* Main heart */
+#heartFrame {
+  position: relative;
+  width: 240px;
+  height: 240px;
+  transform: rotate(-45deg);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow:
+    0 0 20px rgba(255, 105, 180, 0.75),
+    0 0 40px rgba(255, 105, 180, 0.45);
+  animation: heartbeat 2.5s ease-in-out infinite;
+  background: #ff6cab;
+}
+
+/* top circles to create full heart */
+#heartFrame::before,
+#heartFrame::after {
+  content: "";
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  background: inherit;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+#heartFrame::before {
+  top: -120px;
+  left: 0;
+}
+
+#heartFrame::after {
+  top: 0;
+  left: 120px;
+}
+
+/* the actual photo */
+#girlPhoto {
+  position: absolute;
+  top: -55px;
+  left: -10px;
+  width: 125%;
+  height: 125%;
+  object-fit: cover;
+  object-position: center center;
+  transform: rotate(45deg);
+  z-index: 2;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+/* soft pink overlay glow */
+#heartFrame .heartGlow {
+  display: none;
+}
+
+/* Smoke effect */
+.smoke {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.32) 0%,
+    rgba(255, 192, 203, 0.16) 35%,
+    rgba(255, 192, 203, 0.06) 55%,
+    rgba(255, 192, 203, 0) 75%
+  );
+  filter: blur(14px);
+  transform: translate(-50%, -50%) scale(0.4);
+  opacity: 0;
+  pointer-events: none;
+}
+
+#photoWrap.show .smoke1 {
+  width: 260px;
+  height: 260px;
+  animation: smokeRise1 2.2s ease-out forwards;
+}
+
+#photoWrap.show .smoke2 {
+  width: 320px;
+  height: 320px;
+  animation: smokeRise2 2.6s ease-out forwards;
+}
+
+#photoWrap.show .smoke3 {
+  width: 380px;
+  height: 380px;
+  animation: smokeRise3 3s ease-out forwards;
+}
+
+@keyframes smokeRise1 {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -35%) scale(0.35);
+  }
+  20% {
+    opacity: 0.35;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -65%) scale(1.25);
+  }
+}
+
+@keyframes smokeRise2 {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -42%) scale(0.4);
+  }
+  25% {
+    opacity: 0.28;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -78%) scale(1.45);
+  }
+}
+
+@keyframes smokeRise3 {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -45%) scale(0.45);
+  }
+  30% {
+    opacity: 0.18;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -88%) scale(1.65);
+  }
+}
+
+@keyframes heartbeat {
+  0%, 100% {
+    transform: rotate(-45deg) scale(1);
+  }
+  50% {
+    transform: rotate(-45deg) scale(1.04);
+  }
+}
+
+#rotateNotice .overlay {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  text-align: center;
+  padding: 20px;
+}
