@@ -138,8 +138,8 @@ html, body {
 #girlPhoto {
   position: absolute;
   top: -55px;
-  left: -10px;
-  width: 125%;
+  left: -2px;
+  width: 130%;
   height: 125%;
   object-fit: cover;
   object-position: center center;
