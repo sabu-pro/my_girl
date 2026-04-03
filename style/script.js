@@ -311,10 +311,10 @@ function drawDots() {
     dot.x += dot.vx;
     dot.y += dot.vy;
 
-    ctx.font = "16px Arial";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText("❤️", dot.x, dot.y);
+    ctx.beginPath();
+    ctx.fillStyle = "#ff4f9a";
+    ctx.arc(dot.x, dot.y, 3, 0, Math.PI * 2);
+    ctx.fill();
   });
 }
 
