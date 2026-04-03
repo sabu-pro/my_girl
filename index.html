@@ -7,13 +7,47 @@
   <link rel="stylesheet" href="./style/style.css">
 </head>
 <body>
-  <div id="startScreen">
-  <div class="startBox">
-    <h1>For You 💗</h1>
-    <p>A little surprise, made with love </p>
-    <button id="startBtn">Open this, Bhunti 💖</button>
+  <!-- Screen 1 -->
+  <div id="startScreen" class="screen active">
+    <div class="startBox">
+      <h1>For You 💗</h1>
+      <p>I made something just for you…</p>
+      <button id="startBtn">Open this, Bhunti 💖</button>
+    </div>
   </div>
-</div>
+
+  <!-- Screen 2 -->
+  <div id="letterScreen" class="screen">
+    <div class="letterCard">
+      <h2>A Letter for You 💌</h2>
+
+      <p>
+        My love, I just want to thank God for bringing you into my life.
+        You are one of the most beautiful blessings I have ever received.
+      </p>
+
+      <p>
+        Your presence gives me peace, your smile gives me joy, and your love
+        makes my heart feel full in a way words cannot fully explain.
+      </p>
+
+      <p>
+        No matter what life brings, I want you to know that you are deeply
+        special to me, and I will always be grateful for you.
+      </p>
+
+      <div class="verseBox">
+        <p class="verse">
+          “Every good and perfect gift is from above, coming down from the Father...”
+        </p>
+        <p class="verseRef">James 1:17 ✨</p>
+      </div>
+
+      <button id="letterBtn">See My Surprise 💖</button>
+    </div>
+  </div>
+
+  <!-- Main animation area -->
   <canvas id="canvas"></canvas>
 
   <div id="rotateNotice" style="display:none;">

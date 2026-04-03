@@ -7,62 +7,12 @@ html, body {
   background: black;
   font-family: Arial, sans-serif;
 }
-#startScreen {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle at center, #22003d 0%, #080012 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 99999;
-  transition: opacity 1s ease, visibility 1s ease;
-}
 
-#startScreen.hide {
-  opacity: 0;
-  visibility: hidden;
-}
-
-.startBox {
-  text-align: center;
-  color: white;
-  padding: 30px 40px;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 30px rgba(255, 105, 180, 0.25);
-  backdrop-filter: blur(6px);
-}
-
-.startBox h1 {
-  margin: 0 0 10px;
-  font-size: 42px;
-}
-
-.startBox p {
-  margin: 0 0 20px;
-  font-size: 18px;
-  color: #ffd6ea;
-}
-
-#startBtn {
-  border: none;
-  outline: none;
-  padding: 14px 28px;
-  font-size: 20px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #ff4f9a, #ff8ec7);
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 0 18px rgba(255, 105, 180, 0.45);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-#startBtn:hover {
-  transform: scale(1.06);
-  box-shadow: 0 0 28px rgba(255, 105, 180, 0.7);
-}
+/* Canvas and animation elements */
 #canvas {
   display: block;
+  width: 100vw;
+  height: 100vh;
 }
 
 #bear {
@@ -72,6 +22,7 @@ html, body {
   width: 110px;
   z-index: 10;
   transition: transform 0.2s ease;
+  display: none;
 }
 
 #bear:hover {
@@ -82,7 +33,7 @@ html, body {
 #photoWrap {
   position: absolute;
   left: 50%;
-  top: 57%;
+  top: 56%;
   transform: translate(-50%, 30px) scale(0.72);
   opacity: 0;
   z-index: 20;
@@ -90,6 +41,7 @@ html, body {
   transition:
     opacity 1.6s ease,
     transform 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+  display: none;
 }
 
 #photoWrap.show {
@@ -97,7 +49,7 @@ html, body {
   transform: translate(-50%, 0) scale(1);
 }
 
-/* Main heart */
+/* Heart */
 #heartFrame {
   position: relative;
   width: 240px;
@@ -112,7 +64,6 @@ html, body {
   background: #ff6cab;
 }
 
-/* top circles to create full heart */
 #heartFrame::before,
 #heartFrame::after {
   content: "";
@@ -134,7 +85,6 @@ html, body {
   left: 120px;
 }
 
-/* the actual photo */
 #girlPhoto {
   position: absolute;
   top: -55px;
@@ -150,12 +100,7 @@ html, body {
   border-radius: 0;
 }
 
-/* soft pink overlay glow */
-#heartFrame .heartGlow {
-  display: none;
-}
-
-/* Smoke effect */
+/* Smoke */
 .smoke {
   position: absolute;
   left: 50%;
@@ -192,6 +137,138 @@ html, body {
   animation: smokeRise3 3s ease-out forwards;
 }
 
+/* Start + letter screens */
+.screen {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #22003d 0%, #080012 100%);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.screen.active {
+  display: flex;
+  opacity: 1;
+}
+
+.startBox,
+.letterCard {
+  text-align: center;
+  color: white;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 30px rgba(255, 105, 180, 0.25);
+  backdrop-filter: blur(6px);
+}
+
+.startBox {
+  padding: 30px 40px;
+  max-width: 500px;
+}
+
+.startBox h1 {
+  margin: 0 0 10px;
+  font-size: 42px;
+}
+
+.startBox p {
+  margin: 0 0 20px;
+  font-size: 18px;
+  color: #ffd6ea;
+}
+
+.letterCard {
+  max-width: 650px;
+  width: 100%;
+  padding: 34px 30px;
+  text-align: left;
+  line-height: 1.75;
+}
+
+.letterCard h2 {
+  margin: 0 0 20px;
+  text-align: center;
+  color: #ffd1e6;
+  font-size: 34px;
+}
+
+.letterCard p {
+  font-size: 18px;
+  color: #fff4fb;
+  margin: 0 0 16px;
+}
+
+.verseBox {
+  margin-top: 22px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: rgba(255, 105, 180, 0.12);
+  border: 1px solid rgba(255, 182, 193, 0.25);
+}
+
+.verse {
+  font-style: italic;
+  color: #ffe3f0;
+  margin-bottom: 6px;
+}
+
+.verseRef {
+  text-align: right;
+  color: #ffc7df;
+  font-weight: bold;
+}
+
+#startBtn,
+#letterBtn {
+  border: none;
+  outline: none;
+  padding: 14px 28px;
+  font-size: 20px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff4f9a, #ff8ec7);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 18px rgba(255, 105, 180, 0.45);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#startBtn:hover,
+#letterBtn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 28px rgba(255, 105, 180, 0.7);
+}
+
+#startBtn {
+  display: inline-block;
+}
+
+#letterBtn {
+  display: block;
+  margin: 26px auto 0;
+}
+
+/* Overlay */
+#rotateNotice .overlay {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Animations */
 @keyframes smokeRise1 {
   0% {
     opacity: 0;
@@ -243,16 +320,35 @@ html, body {
   }
 }
 
-#rotateNotice .overlay {
-  position: fixed;
-  z-index: 9999;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.95);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  text-align: center;
-  padding: 20px;
+/* Mobile */
+@media (max-width: 768px) {
+  .startBox {
+    padding: 26px 24px;
+  }
+
+  .startBox h1 {
+    font-size: 34px;
+  }
+
+  .startBox p {
+    font-size: 16px;
+  }
+
+  .letterCard {
+    padding: 24px 20px;
+  }
+
+  .letterCard h2 {
+    font-size: 28px;
+  }
+
+  .letterCard p {
+    font-size: 16px;
+  }
+
+  #startBtn,
+  #letterBtn {
+    font-size: 18px;
+    padding: 12px 22px;
+  }
 }

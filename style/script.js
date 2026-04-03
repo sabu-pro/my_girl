@@ -1,4 +1,3 @@
-let started = false;
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
@@ -19,6 +18,10 @@ let targetDotsQueue = [];
 let currentCharIndex = 0;
 let animationDone = false;
 let photoShown = false;
+
+let shootInterval = null;
+let starInterval = null;
+let animationStarted = false;
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
@@ -66,6 +69,13 @@ function checkOrientation() {
   const bear = document.getElementById("bear");
   const photoWrap = document.getElementById("photoWrap");
 
+  if (!animationStarted) {
+    notice.style.display = "none";
+    bear.style.display = "none";
+    photoWrap.style.display = "none";
+    return;
+  }
+
   if (isMobile && isPortrait) {
     notice.style.display = "block";
     canvas.style.display = "none";
@@ -82,10 +92,48 @@ function checkOrientation() {
 function positionPhotoWrap() {
   const photoWrap = document.getElementById("photoWrap");
   photoWrap.style.left = "50%";
-  photoWrap.style.top = "57%";
+  photoWrap.style.top = "56%";
 }
+
+function showScreen(screenId) {
+  document.querySelectorAll(".screen").forEach((screen) => {
+    screen.classList.remove("active");
+  });
+  document.getElementById(screenId).classList.add("active");
+}
+
+function startAnimationExperience() {
+  animationStarted = true;
+
+  document.getElementById("startScreen").classList.remove("active");
+  document.getElementById("letterScreen").classList.remove("active");
+
+  checkOrientation();
+
+  if (!shootInterval) {
+    shootInterval = setInterval(shootDot, 30);
+  }
+
+  if (!starInterval) {
+    starInterval = setInterval(createShootingStar, 1500);
+  }
+
+  if (!window.__loveAnimationRunning) {
+    window.__loveAnimationRunning = true;
+    animate();
+  }
+}
+
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
+
+document.getElementById("startBtn").addEventListener("click", () => {
+  showScreen("letterScreen");
+});
+
+document.getElementById("letterBtn").addEventListener("click", () => {
+  startAnimationExperience();
+});
 
 function createExplosion(x, y) {
   const count = 20;
@@ -215,7 +263,7 @@ function generateAllTargetDots() {
 }
 
 function shootDot() {
-  if (animationDone) return;
+  if (!animationStarted || animationDone) return;
 
   while (
     currentCharIndex < targetDotsQueue.length &&
@@ -294,7 +342,7 @@ function drawExplosions() {
 }
 
 function maybeRevealPhoto() {
-  if (animationDone || photoShown || dots.length === 0) return;
+  if (!animationStarted || animationDone || photoShown || dots.length === 0) return;
 
   const allArrived = currentCharIndex >= targetDotsQueue.length &&
     dots.every(
@@ -318,6 +366,11 @@ function maybeRevealPhoto() {
 }
 
 function animate() {
+  if (!animationStarted) {
+    requestAnimationFrame(animate);
+    return;
+  }
+
   const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
   gradient.addColorStop(0, "#0a001f");
   gradient.addColorStop(1, "#1a0033");
@@ -334,25 +387,14 @@ function animate() {
 }
 
 canvas.addEventListener("click", (e) => {
+  if (!animationStarted) return;
   createExplosion(e.clientX, e.clientY);
 });
 
 canvas.addEventListener("touchstart", (e) => {
+  if (!animationStarted) return;
   const touch = e.touches[0];
   if (touch) {
     createExplosion(touch.clientX, touch.clientY);
   }
-});
-
-document.getElementById("startBtn").addEventListener("click", () => {
-  if (started) return;
-  started = true;
-
-  document.getElementById("startScreen").classList.add("hide");
-
-  setTimeout(() => {
-    setInterval(shootDot, 30);
-    setInterval(createShootingStar, 1500);
-    animate();
-  }, 700);
 });
